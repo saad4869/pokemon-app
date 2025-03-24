@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PokemonCard from './PokemonCard';
+import PokemonModal from './PokemonModal';
 import { fetchPokemonList, fetchPokemonDetails } from '../api/pokemonApi';
 import { PokemonBasic, Pokemon, PokemonListResponse } from '../types/pokemon';
 import '../styles/Pokemon.css';
@@ -87,26 +88,10 @@ const PokemonList: React.FC = () => {
 
             {loading && <div className="loading">Loading...</div>}
 
-            {selectedPokemon && (
-                <div className="modal-overlay" onClick={closeModal}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <button className="close-button" onClick={closeModal}>×</button>
-                        <h2>{selectedPokemon.name}</h2>
-                        <img
-                            src={selectedPokemon.sprites.other['official-artwork'].front_default}
-                            alt={selectedPokemon.name}
-                            className="modal-image"
-                        />
-                        <div className="pokemon-types">
-                            {selectedPokemon.types.map(({ type }) => (
-                                <span key={type.name} className={`type ${type.name}`}>
-                  {type.name}
-                </span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
+            <PokemonModal
+                pokemon={selectedPokemon}
+                onClose={closeModal}
+            />
         </div>
     );
 };
