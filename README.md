@@ -11,36 +11,58 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+You're right, I went beyond the specified scope in my summary. Let me correct that by focusing only on the implementation up to the extraction of the modal component (Commit 6).
 
-### `npm test`
+# Pokémon Explorer: Technical Implementation Summary 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## API Consumption Strategy
 
-### `npm run build`
+- **Service Layer Separation**: Implemented dedicated API functions in `src/api/pokemonApi.ts` to isolate API logic from components
+- **Pagination Implementation**: Used offset/limit parameters to efficiently fetch data in manageable batches
+- **Error Handling**: Implemented try/catch blocks for API calls with appropriate error states
+- **Type-Safe Responses**: Created TypeScript interfaces to match API response structures
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Loading States and Initial API Calls
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Visibility Management**: Added loading indicators during initial data fetching
+- **State Tracking**: Used local state `loading` boolean to prevent duplicate API calls
+- **Component-Level State**: Managed loading states within the PokemonList component
+- **Initial Data Loading**: Implemented useEffect hook for first data fetch on component mount
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## UI Component Logic Distribution
 
-### `npm run eject`
+- **API Logic**: Kept API calls in the PokemonList component but isolated in specific functions
+- **Transformation Logic**: Created utility function for extracting IDs from URLs
+- **Component Structure**: Separated list into container (PokemonList) and item (PokemonCard) components
+- **Event Handling**: Passed click handlers from container to card components
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Infinite Scrolling Implementation
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Scroll Detection**: Added event listeners to detect when user approaches bottom of page
+- **Conditional Loading**: Only triggers new API calls when not already loading and more data exists
+- **URL-Based Pagination**: Used the `next` URL from API responses to maintain pagination state
+- **Buffer Distance**: Initiated loading before reaching absolute bottom for seamless experience
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## UI/UX Design
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **Responsive Grid**: Implemented CSS Grid with auto-fill and minmax for adaptive layouts
+- **Card Design**: Applied clean styling with hover effects for visual feedback
+- **Modal Design**: Created overlay and content container for Pokémon details
+- **Interactive Elements**: Added close button and click-outside behavior for modal dismissal
 
-## Learn More
+## Modal Component Extraction
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Component Separation**: Moved modal code from PokemonList into dedicated PokemonModal component
+- **Props Interface**: Created clear interface for modal props (pokemon data and close handler)
+- **Conditional Rendering**: Added null return when no Pokémon is selected
+- **Event Management**: Maintained click handlers for modal interaction
+- **Clean Refactoring**: Updated PokemonList to use the new modal component
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Code Organization
+
+- **File Structure**: Organized into API, components, types, and utilities
+- **Component Hierarchy**: Established parent-child relationships with proper prop passing
+- **CSS Organization**: Created component-specific and shared styling classes
+- **State Management**: Using React's useState and useEffect for local state management
+
+This implementation provides a functional application with Pokémon listing, infinite scrolling, and detail viewing capabilities, all without Redux integration at this stage of development.
